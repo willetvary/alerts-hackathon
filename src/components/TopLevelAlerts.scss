@@ -1,0 +1,27 @@
+.alerts > .top-level-alerts {
+  margin: 9px;
+
+  .title {
+    display: flex;
+
+    input {
+      margin-top: 6px;
+    }
+
+    > div {
+      cursor: pointer;
+    }
+
+    cds-icon {
+      margin: 0 6px;
+    }
+
+    .badge {
+      margin-left: 6px;
+    }
+  }
+
+  .content {
+    margin-left: 20px;
+  }
+}

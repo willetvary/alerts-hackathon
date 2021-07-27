@@ -1,0 +1,21 @@
+.alerts {
+  .buttons > .btn-group {
+    & > .check-box {
+      border: 1px solid var(--clr-color-action-600);
+      border-bottom-left-radius: 3px;
+      border-right: none;
+      border-top-left-radius: 3px;
+      padding-top: 6px;
+      text-align: center;
+      width: 32px;
+    }
+
+    button:focus {
+      outline: double;
+    }
+  }
+
+  .selected-text {
+    margin-top: 6px;
+  }
+}
