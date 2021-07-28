@@ -1,0 +1,19 @@
+.alerts-section {
+
+  .section-header {
+    font-weight: bold;
+  }
+
+  .alert-row {
+    display: flex;
+    margin-left: 12px;
+
+    span {
+      font-size: 9px;
+      height: 20px;
+      margin-left: 12px;
+      margin-top: 3px;
+      padding: 9px;
+    }
+  }
+}

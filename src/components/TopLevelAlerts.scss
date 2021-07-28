@@ -1,0 +1,25 @@
+.alerts > .top-level-alerts {
+  margin: 9px 0;
+
+  .title {
+    display: flex;
+
+    .menu {
+      padding: 0 6px;
+    }
+
+    .arrow {
+      padding: 0 6px;
+    }
+
+    .id {
+      .badge {
+        margin-left: 12px;
+      }
+    }
+  }
+
+  .content {
+    margin-left: 62px;
+  }
+}
