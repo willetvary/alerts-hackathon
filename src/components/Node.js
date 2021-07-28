@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { DOWN, Icon, Link, RIGHT } from "@tmc/clr-react";
+import * as CdsCoreIcon from "@cds/core/icon";
 import Menu from "./Menu";
 import TopicImage from "./TopicImage";
 import AlertDetails from "./AlertDetails";
@@ -22,7 +23,7 @@ export default function Node({ alert, updateAlerts }) {
           <Menu alert={alert} updateAlerts={updateAlerts} />
         </div>
         <Link type="button" action="flat" href="#" className="id" onClick={clickHandler}>
-          <Icon shape="angle" direction={direction} />
+          <Icon shape={CdsCoreIcon.angleIconName} direction={direction} />
           {alert.id}
         </Link>
         <TopicImage id={alert.id} />

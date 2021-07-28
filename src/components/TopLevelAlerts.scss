@@ -13,8 +13,10 @@
     }
 
     .id {
-      .badge {
-        margin-left: 12px;
+      color: var(--clr-link-color);
+
+      cds-icon {
+        margin-right: 6px;
       }
     }
   }

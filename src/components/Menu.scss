@@ -2,7 +2,7 @@
 
   .dropdown-menu {
     box-shadow: 1px 1px rgba(0, 0, 0, .1);
-    margin-top: -72px;
+    margin-top: -122px;
     padding: 0;
     visibility: visible;
 
@@ -13,9 +13,10 @@
     .dropdown-divider {
       margin: 0;
     }
-  }
 
-  .react-contextmenu-item--disabled {
-    opacity: .4;
+    .react-contextmenu-item--disabled {
+      cursor: not-allowed;
+      opacity: .4;
+    }
   }
 }

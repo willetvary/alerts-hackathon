@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { ContextMenu, ContextMenuTrigger, MenuItem } from "react-contextmenu";
-import { Icon, Link } from "@tmc/clr-react";
+import {  Icon, Link } from "@tmc/clr-react";
+import * as CdsCoreIcon from "@cds/core/icon"
 import { acknowledgeAlert, enableAlert } from "../services";
 
 import "./Menu.scss";
@@ -23,7 +24,7 @@ export default function Menu({ alert, updateAlerts }) {
   return (
     <div className="alert-context-menu">
       <ContextMenuTrigger id={alert.nodeId} holdToDisplay={0}>
-        <Link href="#" tabIndex={0}><Icon shape="ellipsis-vertical" /></Link>
+        <Link href="#" tabIndex={0}><Icon shape={CdsCoreIcon.ellipsisVerticalIconName} /></Link>
       </ContextMenuTrigger>
       <ContextMenu id={alert.nodeId} className="dropdown-menu">
         <h4 className="dropdown-header">Alert Actions</h4>

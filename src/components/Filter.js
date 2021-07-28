@@ -1,5 +1,6 @@
 import React from "react";
 import { ControlContainer, CoreControlAction, FormControl,  Icon, Input, InputWrapper } from "@tmc/clr-react";
+import * as CdsCoreIcon from "@cds/core/icon";
 
 import "./Filter.scss";
 
@@ -10,7 +11,7 @@ export default function Filter() {
         <InputWrapper>
           <Input />
           <CoreControlAction>
-            <Icon shape="search" size={18} />
+            <Icon shape={CdsCoreIcon.searchIconName} size={18} />
           </CoreControlAction>
         </InputWrapper>
       </ControlContainer>
