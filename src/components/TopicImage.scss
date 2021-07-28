@@ -1,0 +1,22 @@
+.topic-image {
+  .signpost-trigger {
+    vertical-align: top;
+  }
+
+  .signpost-content {
+    margin-left: 6px;
+    margin-top: 12px;
+    max-width: unset;
+    position: absolute;
+    width: 600px;
+
+    .signpost-content-body {
+      padding: 3px;
+
+      img {
+        margin-top: 22px;
+        width: 100%;
+      }
+    }
+  }
+}

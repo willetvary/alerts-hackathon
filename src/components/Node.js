@@ -1,30 +1,38 @@
-import React from "react";
-import { Badge, Checkbox, Icon } from "@tmc/clr-react";
+import React, { useCallback } from "react";
+import { DOWN, Icon, Link, RIGHT } from "@tmc/clr-react";
+import Menu from "./Menu";
+import TopicImage from "./TopicImage";
+import AlertDetails from "./AlertDetails";
+import AlertChildren from "./AlertChildren";
 
-export default function Node({ alert }) {
-  console.log(">>> alert", alert)
+export default function Node({ alert, updateAlerts }) {
+
+  const clickHandler = useCallback((e) => {
+    e.preventDefault();
+    alert.isExpanded = !alert.isExpanded;
+    updateAlerts();
+  }, [alert, updateAlerts]);
+
+  const direction = alert.isExpanded ? DOWN : RIGHT;
+
   return (
     <div className="node">
-    <div className="title">
-      <Checkbox />
-      <div tabIndex={0}>
-        <Icon shape="angle" direction="right" />
-        <span>{alert.id}</span>
-        <Badge status="danger">1</Badge>
-        <Badge status="warn">2</Badge>
-      </div>
-    </div>
-    <div className="content">
-      <div className="node">
-        <div className="title">
-          <Checkbox />
-          <div>
-            <Icon shape="angle" direction="right" />
-            <span>inner alert</span>
-          </div>
+      <div className="title">
+        <div className="menu">
+          <Menu alert={alert} updateAlerts={updateAlerts} />
         </div>
+        <Link type="button" action="flat" href="#" className="id" onClick={clickHandler}>
+          <Icon shape="angle" direction={direction} />
+          {alert.id}
+        </Link>
+        <TopicImage id={alert.id} />
       </div>
-    </div>
+      {alert.isExpanded ? (
+        <div className="content">
+          <AlertDetails alerts={alert.alerts} />
+          <AlertChildren children={alert.childern} updateAlerts={updateAlerts} />
+        </div>
+      ) : null}
     </div>
   );
 }

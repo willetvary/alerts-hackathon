@@ -1,27 +1,25 @@
 .alerts > .top-level-alerts {
-  margin: 9px;
+  margin: 9px 0;
 
   .title {
     display: flex;
 
-    input {
-      margin-top: 6px;
+    .menu {
+      padding: 0 6px;
     }
 
-    > div {
-      cursor: pointer;
+    .arrow {
+      padding: 0 6px;
     }
 
-    cds-icon {
-      margin: 0 6px;
-    }
-
-    .badge {
-      margin-left: 6px;
+    .id {
+      .badge {
+        margin-left: 12px;
+      }
     }
   }
 
   .content {
-    margin-left: 20px;
+    margin-left: 62px;
   }
 }
