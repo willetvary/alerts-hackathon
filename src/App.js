@@ -1,11 +1,14 @@
 import Alerts from "./components";
 
-import './App.css';
+import './App.scss';
 
 function App() {
   return (
     <>
-      <h1>Alerts</h1>
+      <div className="page-header">
+        <img src="/tanzu-logomark.svg" alt="" />
+        <h1>Alerts</h1>
+      </div>
       <Alerts />
     </>
   );

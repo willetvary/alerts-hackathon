@@ -5,4 +5,16 @@
 
 #root {
   margin: 10px 40px;
+
+  > .page-header {
+    display: flex;
+
+    img {
+      width: 50px;
+    }
+
+    h1 {
+      margin: 24px;
+    }
+  }
 }
