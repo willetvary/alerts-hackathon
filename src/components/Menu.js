@@ -26,10 +26,11 @@ export default function Menu({ alert, updateAlerts }) {
         <Link href="#" tabIndex={0}><Icon shape="ellipsis-vertical" /></Link>
       </ContextMenuTrigger>
       <ContextMenu id={alert.nodeId} className="dropdown-menu">
-        <MenuItem className="dropdown-item" onClick={acknowledClickHandler}>
+        <h4 className="dropdown-header">Alert Actions</h4>
+        <MenuItem className="dropdown-item" onClick={acknowledClickHandler} disabled={!alert.disabled}>
           Acknowledge
         </MenuItem>
-        <MenuItem className="dropdown-item" onClick={enableClickHandler}>
+        <MenuItem className="dropdown-item" onClick={enableClickHandler} disabled={alert.disabled}>
           Enable
         </MenuItem>
         <div className="dropdown-divider"></div>

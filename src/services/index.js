@@ -1,8 +1,10 @@
+import superagent from "superagent";
+
 const API_TOKEN = "536bc78a-7dd2-4543-9072-25b5d781914f";
 const HOST = "http://localhost:8080";
 const ALERTS_API_PATH = `${HOST}/api/alerthierarchy/alert_hierarchy`;
-const ACKNOWLEDGE_API_PATH = `${HOST}/api/alerthierarchy/ack?alertId=`;
-const ENABLE_API_PATH = `${HOST}/api/alerthierarchy/enable?alertId=`;
+const ACKNOWLEDGE_API_PATH = `${HOST}/api/alerthierarchy/ack?nodeId=`;
+const ENABLE_API_PATH = `${HOST}/api/alerthierarchy/enable?nodeId=`;
 
 const getHeaders = () => ({
   headers: {
@@ -30,25 +32,21 @@ export const getAlerts = () => {
 };
 
 export const acknowledgeAlert = (id) => {
-  return fetch(`${ACKNOWLEDGE_API_PATH}${id}`, getHeaders())
-    .then(response => {
-      console.log(">>> response", response)
-    //   return response.json()
-    // })
-    // .then(data => {
-    //   console.log(">>> data", data)
-    //   return data
-    })
+  return superagent.post(`${ACKNOWLEDGE_API_PATH}${id}`)
+    .send({})
+    .set("Authorization", `Bearer ${API_TOKEN}`)
+    .set("Content-Type", "application/json")
+    .then(data => {
+      return data.text;
+    });
 };
 
 export const enableAlert = (id) => {
-  return fetch(`${ENABLE_API_PATH}${id}`, getHeaders())
-    .then(response => {
-      console.log(">>> response", response)
-    //   return response.json()
-    // })
-    // .then(data => {
-    //   console.log(">>> data", data)
-    //   return data
-    })
+  return superagent.post(`${ENABLE_API_PATH}${id}`)
+    .send({})
+    .set("Authorization", `Bearer ${API_TOKEN}`)
+    .set("Content-Type", "application/json")
+    .then(data => {
+      return data.text;
+    });
 };
