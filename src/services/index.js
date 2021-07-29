@@ -15,8 +15,23 @@ const getHeaders = () => ({
 const setAlertExpanded = (alert) => {
   alert.nodeId = `${Math.random()}`;
   alert.isExpanded = true;
-  alert?.childern?.forEach(row => {
+  alert?.children?.forEach(row => {
     setAlertExpanded(row);
+  });
+};
+
+const getNodesStatus = (nodes, nodeIds = {}) => {
+  nodes.forEach(({ id, disabled, children }) => {
+    nodeIds[id] = disabled;
+    children && getNodesStatus(children, nodeIds);
+  });
+  return nodeIds;
+};
+
+const updateNodesStatus = (nodes, nodesStatus) => {
+  nodes.forEach(n => {
+    n.disabled = nodesStatus[n.id];
+    n.children && updateNodesStatus(n.children, nodesStatus);
   });
 };
 
@@ -29,6 +44,14 @@ export const getAlerts = () => {
       });
       return data.response.alertHierarchy.topLevel
     });
+};
+
+export const refreshAlerts = (topLevelAlerts) => {
+  return getAlerts().then(data => {
+    const nodesStatus = getNodesStatus(data);
+    updateNodesStatus(topLevelAlerts, nodesStatus);
+    return [...topLevelAlerts];
+  });
 };
 
 export const acknowledgeAlert = (id) => {

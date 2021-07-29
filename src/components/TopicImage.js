@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import PropTypes from "prop-types";
 import { Image, Signpost, SignpostContent, SignpostTrigger  } from "@tmc/clr-react";
 
 import "./TopicImage.scss";
@@ -20,3 +21,7 @@ export default function TopicImage({ id }) {
     </Signpost>
   );
 }
+
+TopicImage.propTypes = {
+  id: PropTypes.string.isRequired
+};

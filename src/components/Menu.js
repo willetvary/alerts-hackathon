@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import PropTypes from "prop-types";
 import { ContextMenu, ContextMenuTrigger, MenuItem } from "react-contextmenu";
 import {  Icon, Link } from "@tmc/clr-react";
 import * as CdsCoreIcon from "@cds/core/icon"
@@ -6,7 +7,7 @@ import { acknowledgeAlert, enableAlert } from "../services";
 
 import "./Menu.scss";
 
-export default function Menu({ alert, updateAlerts }) {
+export default function Menu({ alert, updateAlerts, refreshAlerts }) {
 
   const toggleIsExpanded = useCallback(() => {
     alert.isExpanded = !alert.isExpanded;
@@ -14,12 +15,16 @@ export default function Menu({ alert, updateAlerts }) {
   }, [alert, updateAlerts]);
 
   const acknowledClickHandler = useCallback(() => {
-    acknowledgeAlert(alert.id);
-  }, [alert]);
+    acknowledgeAlert(alert.id).then(() => {
+      refreshAlerts();
+    });
+  }, [alert, refreshAlerts]);
 
   const enableClickHandler = useCallback(() => {
-    enableAlert(alert.id);
-  }, [alert]);
+    enableAlert(alert.id).then(() => {
+      refreshAlerts();
+    });
+  }, [alert, refreshAlerts]);
 
   return (
     <div className="alert-context-menu">
@@ -28,10 +33,10 @@ export default function Menu({ alert, updateAlerts }) {
       </ContextMenuTrigger>
       <ContextMenu id={alert.nodeId} className="dropdown-menu">
         <h4 className="dropdown-header">Alert Actions</h4>
-        <MenuItem className="dropdown-item" onClick={acknowledClickHandler} disabled={!alert.disabled}>
+        <MenuItem className="dropdown-item" onClick={acknowledClickHandler} disabled={alert.disabled}>
           Acknowledge
         </MenuItem>
-        <MenuItem className="dropdown-item" onClick={enableClickHandler} disabled={alert.disabled}>
+        <MenuItem className="dropdown-item" onClick={enableClickHandler} disabled={!alert.disabled}>
           Enable
         </MenuItem>
         <div className="dropdown-divider"></div>
@@ -42,3 +47,9 @@ export default function Menu({ alert, updateAlerts }) {
     </div>
   );
 }
+
+Menu.propTypes = {
+  alert: PropTypes.object.isRequired,
+  updateAlerts: PropTypes.func.isRequired,
+  refreshAlerts: PropTypes.func.isRequired
+};

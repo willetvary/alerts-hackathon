@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import PropTypes from "prop-types";
 import { DOWN, Icon, Link, RIGHT } from "@tmc/clr-react";
 import * as CdsCoreIcon from "@cds/core/icon";
 import Menu from "./Menu";
@@ -6,7 +7,7 @@ import TopicImage from "./TopicImage";
 import AlertDetails from "./AlertDetails";
 import AlertChildren from "./AlertChildren";
 
-export default function Node({ alert, updateAlerts }) {
+export default function Node({ alert, filterText, updateAlerts, refreshAlerts }) {
 
   const clickHandler = useCallback((e) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ export default function Node({ alert, updateAlerts }) {
     <div className="node">
       <div className="title">
         <div className="menu">
-          <Menu alert={alert} updateAlerts={updateAlerts} />
+          <Menu alert={alert} updateAlerts={updateAlerts} refreshAlerts={refreshAlerts} />
         </div>
         <Link type="button" action="flat" href="#" className="id" onClick={clickHandler}>
           <Icon shape={CdsCoreIcon.angleIconName} direction={direction} />
@@ -30,10 +31,17 @@ export default function Node({ alert, updateAlerts }) {
       </div>
       {alert.isExpanded ? (
         <div className="content">
-          <AlertDetails alerts={alert.alerts} />
-          <AlertChildren children={alert.childern} updateAlerts={updateAlerts} />
+          <AlertDetails alerts={alert.alerts} filterText={filterText} />
+          <AlertChildren children={alert.children} updateAlerts={updateAlerts} refreshAlerts={refreshAlerts} />
         </div>
       ) : null}
     </div>
   );
 }
+
+Node.propTypes = {
+  alert: PropTypes.object.isRequired,
+  filterText: PropTypes.string,
+  updateAlerts: PropTypes.func.isRequired,
+  refreshAlerts: PropTypes.func.isRequired
+};

@@ -4,16 +4,23 @@
     font-weight: bold;
   }
 
-  .alert-row {
-    display: flex;
-    margin-left: 12px;
+  .alert-names {
+    max-height: 240px;
+    overflow: auto;
 
-    span {
-      font-size: 9px;
-      height: 20px;
+    .alert-row {
+      display: flex;
       margin-left: 12px;
-      margin-top: 3px;
-      padding: 9px;
+
+      div:first-child {
+        width: 35px;
+      }
+
+      .highlight {
+        background-color: var(--clr-color-action-700);
+        color: var(--clr-color-on-action-700);
+        font-weight: bold;
+      }
     }
   }
 }
