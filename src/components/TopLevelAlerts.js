@@ -9,12 +9,13 @@ export default function TopLevelAlerts({ topLevelAlerts, filterText, refreshAler
   const updateAlerts = useCallback(() => {
     setAlerts({...alerts});
   }, [alerts]);
-
+  const level = 1;
   return (
     <div className="top-level-alerts">
       {topLevelAlerts.map(alert => (
         <Node
           key={alert.id} alert={alert}
+          level={level}
           filterText={filterText}
           updateAlerts={updateAlerts}
           refreshAlerts={refreshAlerts}

@@ -7,7 +7,9 @@ import TopicImage from "./TopicImage";
 import AlertDetails from "./AlertDetails";
 import AlertChildren from "./AlertChildren";
 
-export default function Node({ alert, filterText, updateAlerts, refreshAlerts }) {
+const SHOW_ALERTS_ABOVE_LEVEL = 2;
+const SHOW_TOPIC_LINK_BELOW_LEVEL = 3;
+export default function Node({ alert, level, filterText, updateAlerts, refreshAlerts }) {
 
   const clickHandler = useCallback((e) => {
     e.preventDefault();
@@ -25,14 +27,15 @@ export default function Node({ alert, filterText, updateAlerts, refreshAlerts })
         </div>
         <Link type="button" action="flat" href="#" className="id" onClick={clickHandler}>
           <Icon shape={CdsCoreIcon.angleIconName} direction={direction} />
-          {alert.id}
+          {alert.id} {level}
         </Link>
-        <TopicImage id={alert.id} />
+        {level < SHOW_TOPIC_LINK_BELOW_LEVEL && <TopicImage id={alert.id} />}
       </div>
       {alert.isExpanded ? (
         <div className="content">
-          <AlertDetails alerts={alert.alerts} filterText={filterText} />
+          {level > SHOW_ALERTS_ABOVE_LEVEL && <AlertDetails alerts={alert.alerts} filterText={filterText} />}
           <AlertChildren
+            level={level + 1}
             children={alert.children}
             filterText={filterText}
             updateAlerts={updateAlerts}
@@ -46,6 +49,7 @@ export default function Node({ alert, filterText, updateAlerts, refreshAlerts })
 
 Node.propTypes = {
   alert: PropTypes.object.isRequired,
+  level: PropTypes.number.isRequired,
   filterText: PropTypes.string.isRequired,
   updateAlerts: PropTypes.func.isRequired,
   refreshAlerts: PropTypes.func.isRequired
