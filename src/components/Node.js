@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { DOWN, Icon, Link, RIGHT } from "@tmc/clr-react";
 import * as CdsCoreIcon from "@cds/core/icon";
 import Menu from "./Menu";
+import DisabledBadge from "./DisabledBadge";
 import FiringBadge from "./FiringBadge";
 import TopicImage from "./TopicImage";
 import AlertDetails from "./AlertDetails";
@@ -30,6 +31,7 @@ export default function Node({ alert, level, filterText, updateAlerts, refreshAl
           <Icon shape={CdsCoreIcon.angleIconName} direction={direction} />
           {alert.id}
         </Link>
+        {alert.disabled ? <DisabledBadge /> : null}
         {alert.numOfFiringAlerts > 0 && <FiringBadge numOfFiringAlerts={alert.numOfFiringAlerts} />}
         {level < SHOW_TOPIC_LINK_BELOW_LEVEL && <TopicImage id={alert.id} />}
       </div>
