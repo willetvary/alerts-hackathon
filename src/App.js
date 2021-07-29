@@ -1,3 +1,4 @@
+import { Subtext } from "@tmc/clr-react";
 import Alerts from "./components";
 
 import './App.scss';
@@ -7,7 +8,10 @@ function App() {
     <>
       <div className="page-header">
         <img src="/tanzu-logomark.svg" alt="" />
-        <h1>Zone3</h1>
+        <div>
+          <h1>Alert Levels</h1>
+          <Subtext>Hackathon Team: Zone3</Subtext>
+        </div>
       </div>
       <Alerts />
     </>
