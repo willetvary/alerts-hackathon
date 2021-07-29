@@ -65,5 +65,5 @@ export default function AlertDetails({ alerts, filterText }) {
 
 AlertDetails.propTypes = {
   alerts: PropTypes.array.isRequired,
-  filterText: PropTypes.string
+  filterText: PropTypes.string.isRequired
 };

@@ -32,7 +32,12 @@ export default function Node({ alert, filterText, updateAlerts, refreshAlerts })
       {alert.isExpanded ? (
         <div className="content">
           <AlertDetails alerts={alert.alerts} filterText={filterText} />
-          <AlertChildren children={alert.children} updateAlerts={updateAlerts} refreshAlerts={refreshAlerts} />
+          <AlertChildren
+            children={alert.children}
+            filterText={filterText}
+            updateAlerts={updateAlerts}
+            refreshAlerts={refreshAlerts}
+          />
         </div>
       ) : null}
     </div>
@@ -41,7 +46,7 @@ export default function Node({ alert, filterText, updateAlerts, refreshAlerts })
 
 Node.propTypes = {
   alert: PropTypes.object.isRequired,
-  filterText: PropTypes.string,
+  filterText: PropTypes.string.isRequired,
   updateAlerts: PropTypes.func.isRequired,
   refreshAlerts: PropTypes.func.isRequired
 };

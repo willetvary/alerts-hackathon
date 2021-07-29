@@ -26,6 +26,6 @@ export default function TopLevelAlerts({ topLevelAlerts, filterText, refreshAler
 
 TopLevelAlerts.propTypes = {
   topLevelAlerts: PropTypes.array.isRequired,
-  filterText: PropTypes.string,
+  filterText: PropTypes.string.isRequired,
   refreshAlerts: PropTypes.func.isRequired
 }
