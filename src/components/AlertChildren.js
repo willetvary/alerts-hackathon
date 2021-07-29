@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import Node from "./Node";
 
-import "./AlertChildren.scss";
-
 export default function AlertChildren({ children, level, filterText, updateAlerts, refreshAlerts }) {
   if (!children) return null;
 
@@ -21,7 +19,6 @@ export default function AlertChildren({ children, level, filterText, updateAlert
   });
   return (
     <div className="children-section">
-      <div className="section-header">Children</div>
       {ary}
     </div>
   );

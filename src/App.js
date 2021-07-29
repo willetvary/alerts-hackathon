@@ -7,7 +7,7 @@ function App() {
     <>
       <div className="page-header">
         <img src="/tanzu-logomark.svg" alt="" />
-        <h1>Alerts</h1>
+        <h1>Zone3</h1>
       </div>
       <Alerts />
     </>
