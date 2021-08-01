@@ -1,9 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
+import ImmutableProptypes from "react-immutable-proptypes";
 import PropTypes from "prop-types";
+import { getFilterText } from "../selectors";
 
 import "./AlertDetails.scss";
 
-export default function AlertDetails({ alerts, filterText }) {
+function AlertDetails({ node, filterText }) {
 
   const highlightName = (name) => {
     const result = {
@@ -34,6 +37,7 @@ export default function AlertDetails({ alerts, filterText }) {
 
   const rows = [];
   let index = 1;
+  const alerts = node.get("alerts");
   alerts.forEach(name => {
     const result = highlightName(name);
 
@@ -50,9 +54,9 @@ export default function AlertDetails({ alerts, filterText }) {
 
   let header;
   if (filterText) {
-    header = `${rows.length} of ${alerts.length} alert${alerts.length > 1 ? "s" : ""} matching "${filterText}".`;
+    header = `${rows.length} of ${alerts.size} alert${alerts.size > 1 ? "s" : ""} matching "${filterText}".`;
   } else {
-    header = `${alerts.length} Alert${alerts.length === 1 ? "" : "s"}`;
+    header = `${alerts.size} Alert${alerts.size === 1 ? "" : "s"}`;
   }
 
   return (
@@ -64,6 +68,12 @@ export default function AlertDetails({ alerts, filterText }) {
 }
 
 AlertDetails.propTypes = {
-  alerts: PropTypes.array.isRequired,
+  node: ImmutableProptypes.map.isRequired,
   filterText: PropTypes.string.isRequired
 };
+
+const mapStateToProps = (state) => ({
+  filterText: getFilterText(state)
+});
+
+export default connect(mapStateToProps)(AlertDetails);

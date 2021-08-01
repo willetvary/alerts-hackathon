@@ -6,70 +6,48 @@ const ALERTS_API_PATH = `${HOST}/api/alerthierarchy/alert_hierarchy`;
 const ACKNOWLEDGE_API_PATH = `${HOST}/api/alerthierarchy/ack?nodeId=`;
 const ENABLE_API_PATH = `${HOST}/api/alerthierarchy/enable?nodeId=`;
 
-const getHeaders = () => ({
-  headers: {
-    authorization: `Bearer ${API_TOKEN}`
+const buildAlertLevels = (alertLevels, acc = {}) => {
+  for(let i = 0; i < alertLevels.length; i++) {
+    const { id, children, ...node } = alertLevels[i];
+    acc[id] = node;
+    alertLevels[i] = { id, children };
+    if (children) {
+      acc = buildAlertLevels(children, acc);
+    }
   }
-});
-
-const setAlertExpanded = (alert) => {
-  alert.nodeId = `${Math.random()}`;
-  alert.isExpanded = true;
-  alert?.children?.forEach(row => {
-    setAlertExpanded(row);
-  });
+  return acc;
 };
 
-const getNodesStatus = (nodes, nodeIds = {}) => {
-  nodes.forEach(({ id, disabled, children }) => {
-    nodeIds[id] = disabled;
-    children && getNodesStatus(children, nodeIds);
-  });
-  return nodeIds;
-};
-
-const updateNodesStatus = (nodes, nodesStatus) => {
-  nodes.forEach(n => {
-    n.disabled = nodesStatus[n.id];
-    n.children && updateNodesStatus(n.children, nodesStatus);
-  });
-};
-
-export const getAlerts = () => {
-  return fetch(ALERTS_API_PATH, getHeaders())
-    .then(response => response.json())
-    .then(data => {
-      data.response.alertHierarchy.topLevel.forEach(alert => {
-        setAlertExpanded(alert)
-      });
-      return data.response.alertHierarchy.topLevel
-    });
-};
-
-export const refreshAlerts = (topLevelAlerts) => {
-  return getAlerts().then(data => {
-    const nodesStatus = getNodesStatus(data);
-    updateNodesStatus(topLevelAlerts, nodesStatus);
-    return [...topLevelAlerts];
-  });
-};
-
-export const acknowledgeAlert = (id) => {
-  return superagent.post(`${ACKNOWLEDGE_API_PATH}${id}`)
-    .send({})
+export const loadAlerts = () => {
+  return superagent.get(ALERTS_API_PATH)
     .set("Authorization", `Bearer ${API_TOKEN}`)
     .set("Content-Type", "application/json")
+    .send()
     .then(data => {
-      return data.text;
+      const topLevel = data.body.response.alertHierarchy.topLevel;
+      return {
+        hierarchy: topLevel,
+        alertLevels: buildAlertLevels(topLevel)
+      };
     });
 };
 
-export const enableAlert = (id) => {
+export const acknowledgeAlert = (id, alertLevels) => {
+  return superagent.post(`${ACKNOWLEDGE_API_PATH}${id}`)
+    .set("Authorization", `Bearer ${API_TOKEN}`)
+    .set("Content-Type", "application/json")
+    .send({})
+    .then(() => {
+      return loadAlerts();
+    });
+};
+
+export const enableAlert = (id, alertLevels) => {
   return superagent.post(`${ENABLE_API_PATH}${id}`)
     .send({})
     .set("Authorization", `Bearer ${API_TOKEN}`)
     .set("Content-Type", "application/json")
-    .then(data => {
-      return data.text;
+    .then(() => {
+      return loadAlerts();
     });
 };

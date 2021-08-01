@@ -1,7 +1,11 @@
-import React, { useCallback } from "react";
+import React from "react";
+import { connect } from "react-redux";
+import ImmutableProptypes from "react-immutable-proptypes";
 import PropTypes from "prop-types";
 import { DOWN, Icon, Link, RIGHT } from "@tmc/clr-react";
 import * as CdsCoreIcon from "@cds/core/icon";
+import { setNodeIsCollapsed } from "../actions";
+import { getNode } from "../selectors";
 import Menu from "./Menu";
 import DisabledBadge from "./DisabledBadge";
 import FiringBadge from "./FiringBadge";
@@ -11,50 +15,46 @@ import AlertChildren from "./AlertChildren";
 
 const SHOW_ALERTS_ABOVE_LEVEL = 2;
 const SHOW_TOPIC_LINK_BELOW_LEVEL = 3;
-export default function Node({ alert, level, filterText, updateAlerts, refreshAlerts }) {
-
-  const clickHandler = useCallback((e) => {
-    e.preventDefault();
-    alert.isExpanded = !alert.isExpanded;
-    updateAlerts();
-  }, [alert, updateAlerts]);
-
-  const direction = alert.isExpanded ? DOWN : RIGHT;
+function Node({ id, children, level, node, setNodeIsCollapsed }) {
+  const numOfFiringAlerts = node.get("numOfFiringAlerts");
+  const disabled = node.get("disabled");
+  const isCollapsed = node.get("isCollapsed", false);
+  const direction = isCollapsed ? RIGHT : DOWN;
 
   return (
     <div className="node">
       <div className="title">
         <div className="menu">
-          <Menu alert={alert} updateAlerts={updateAlerts} refreshAlerts={refreshAlerts} />
+          <Menu id={id} disabled={disabled} isCollapsed={isCollapsed} />
         </div>
-        <Link type="button" action="flat" href="#" className="id" onClick={clickHandler}>
+        <Link type="button" action="flat" href="#" className="id" onClick={() => setNodeIsCollapsed(id, !isCollapsed)}>
           <Icon shape={CdsCoreIcon.angleIconName} direction={direction} />
-          {alert.id}
+          {id}
         </Link>
-        {alert.disabled ? <DisabledBadge /> : null}
-        {alert.numOfFiringAlerts > 0 && <FiringBadge numOfFiringAlerts={alert.numOfFiringAlerts} />}
-        {level < SHOW_TOPIC_LINK_BELOW_LEVEL && <TopicImage id={alert.id} />}
+        {disabled ? <DisabledBadge /> : null}
+        {numOfFiringAlerts > 0 && <FiringBadge numOfFiringAlerts={numOfFiringAlerts} />}
+        {level < SHOW_TOPIC_LINK_BELOW_LEVEL && <TopicImage id={id} />}
       </div>
-      {alert.isExpanded ? (
+      {isCollapsed ? null : (
         <div className="content">
-          {level > SHOW_ALERTS_ABOVE_LEVEL && <AlertDetails alerts={alert.alerts} filterText={filterText} />}
-          <AlertChildren
-            level={level + 1}
-            children={alert.children}
-            filterText={filterText}
-            updateAlerts={updateAlerts}
-            refreshAlerts={refreshAlerts}
-          />
+          {level > SHOW_ALERTS_ABOVE_LEVEL && <AlertDetails node={node} />}
+          {children && <AlertChildren children={children} level={level + 1} />}
         </div>
-      ) : null}
+      )}
     </div>
   );
 }
 
 Node.propTypes = {
-  alert: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
+  children: PropTypes.array,
   level: PropTypes.number.isRequired,
-  filterText: PropTypes.string.isRequired,
-  updateAlerts: PropTypes.func.isRequired,
-  refreshAlerts: PropTypes.func.isRequired
+  node: ImmutableProptypes.map.isRequired,
+  setNodeIsCollapsed: PropTypes.func.isRequired
 };
+
+const mapStateToProps = (state, ownProps) => ({
+  node: getNode(state, ownProps.id)
+});
+
+export default connect(mapStateToProps, { setNodeIsCollapsed })(Node);

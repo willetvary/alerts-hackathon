@@ -1,32 +1,30 @@
-import React, { useCallback, useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
+import { connect } from "react-redux";
+import ImmutableProptypes from "react-immutable-proptypes";
+import { getHierarchy } from "../selectors";
 import Node from "./Node";
 
 import "./TopLevelAlerts.scss";
 
-export default function TopLevelAlerts({ topLevelAlerts, filterText, refreshAlerts }) {
-  const [alerts, setAlerts] = useState(topLevelAlerts);
-  const updateAlerts = useCallback(() => {
-    setAlerts({...alerts});
-  }, [alerts]);
+function TopLevelAlerts({ hierarchy, alertLevels }) {
   const level = 1;
   return (
     <div className="top-level-alerts">
-      {topLevelAlerts.map(alert => (
-        <Node
-          key={alert.id} alert={alert}
-          level={level}
-          filterText={filterText}
-          updateAlerts={updateAlerts}
-          refreshAlerts={refreshAlerts}
-        />
+      {hierarchy.map(({ id, children }) => (
+        <Node key={id} id={id} children={children} level={level} />
       ))}
     </div>
   );
 }
 
 TopLevelAlerts.propTypes = {
-  topLevelAlerts: PropTypes.array.isRequired,
-  filterText: PropTypes.string.isRequired,
-  refreshAlerts: PropTypes.func.isRequired
+  hierarchy: ImmutableProptypes.list.isRequired
 }
+
+const mapStateToProps = (state) => {
+  return {
+    hierarchy: getHierarchy(state)
+  }
+};
+
+export default connect(mapStateToProps)(TopLevelAlerts);

@@ -1,0 +1,5 @@
+export const SET_FILTER_TEXT = "SET_FILTER_TEXT";
+export const SET_IS_LOADING = "SET_IS_LOADING";
+export const SET_ALERTS = "SET_ALERTS";
+export const SET_ALERT_LEVELS = "SET_ALERT_LEVELS";
+export const SET_NODE_IS_COLLAPSED = "SET_NODE_IS_COLLAPSED";

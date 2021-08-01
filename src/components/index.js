@@ -1,39 +1,41 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { Form, HORIZONTAL } from "@tmc/clr-react";
-import { getAlerts, refreshAlerts as refreshAlertsService } from "../services";
+import PropTypes from "prop-types";
+import { loadAlerts } from "../actions";
+import { getIsLoading } from "../selectors";
 import Loading from "./Loading";
 import Filter from "./Filter";
 import TopLevelAlerts from "./TopLevelAlerts";
 
 import "./index.scss";
 
-export default function Alerts() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [filterText, setFilterText] = useState("");
-  const [topLevelAlerts, setTopLevelAlerts] = useState(null);
+function Alerts({ isLoading, loadAlerts }) {
 
   useEffect(() => {
-    getAlerts().then(data => {
-      setTopLevelAlerts(data);
-      setIsLoading(false);
-    });
-  }, [setTopLevelAlerts, setIsLoading]);
-
-  const refreshAlerts = useCallback(() => {
-    refreshAlertsService(topLevelAlerts).then(data => {
-      setTopLevelAlerts(data);
-    });
-  }, [topLevelAlerts, setTopLevelAlerts]);
+    loadAlerts();
+  }, [loadAlerts]);
 
   return (
     <Form layout={HORIZONTAL} className="alerts">
       {isLoading ? <Loading /> : null}
       {!isLoading ? (
         <>
-          <Filter value={filterText} setValue={setFilterText} />
-          <TopLevelAlerts topLevelAlerts={topLevelAlerts} filterText={filterText} refreshAlerts={refreshAlerts} />
+          <Filter />
+          <TopLevelAlerts />
         </>
       ): null}
     </Form>
   );
 }
+
+Alerts.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  loadAlerts: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  isLoading: getIsLoading(state)
+});
+
+export default connect(mapStateToProps, { loadAlerts })(Alerts);

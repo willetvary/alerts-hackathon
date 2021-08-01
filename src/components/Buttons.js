@@ -3,7 +3,7 @@ import { Button, ButtonGroup, FormControl } from "@tmc/clr-react";
 
 import "./Buttons.scss";
 
-export default function Buttons({ topLevelAlerts }) {
+export default function Buttons() {
 
   return (
     <FormControl className="buttons">
