@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import ImmutableProptypes from "react-immutable-proptypes";
-import { getHierarchy } from "../selectors";
+import { getHierarchy } from "../../selectors";
 import Node from "./Node";
 
 import "./TopLevelAlerts.scss";

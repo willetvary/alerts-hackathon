@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import ImmutableProptypes from "react-immutable-proptypes";
 // import PropTypes from "prop-types";
-import { getFilters } from "../selectors";
+import { getFilters } from "../../selectors";
 
 import "./AlertDetails.scss";
 

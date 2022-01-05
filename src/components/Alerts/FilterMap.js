@@ -1,9 +1,11 @@
 import React from "react";
 
+import "./FilterMap.scss";
+
 const FilterMap = () => {
   return (
-    <div>
-      asdfasdf
+    <div className="filter-map">
+
     </div>
   );
 };
