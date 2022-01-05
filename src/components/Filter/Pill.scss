@@ -1,0 +1,22 @@
+.filter-bar {
+  .pill {
+    button {
+      background: transparent;
+      border: none;
+      margin: 0 -.3rem 0 .3rem;
+
+      &:focus {
+        outline: none;
+      }
+
+      &.focus {
+        outline-width: .1rem;
+        outline-style: dashed;
+      }
+
+      cds-icon {
+        margin: 0;
+      }
+    }
+  }
+}

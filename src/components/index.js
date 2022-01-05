@@ -7,6 +7,7 @@ import { getIsLoading } from "../selectors";
 import Loading from "./Loading";
 import Filter from "./Filter";
 import TopLevelAlerts from "./TopLevelAlerts";
+import FilterMap from "./FilterMap";
 
 import "./index.scss";
 
@@ -22,7 +23,10 @@ function Alerts({ isLoading, loadAlerts }) {
       {!isLoading ? (
         <>
           <Filter />
-          <TopLevelAlerts />
+          <div className="alerts-container">
+            <TopLevelAlerts />
+            <FilterMap />
+          </div>
         </>
       ): null}
     </Form>

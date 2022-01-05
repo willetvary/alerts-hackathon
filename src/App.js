@@ -17,7 +17,7 @@ function App() {
         <img src="/tanzu-logomark.svg" alt="" />
         <div>
           <h1>Alert Levels</h1>
-          <Subtext>Hackathon Team: Zone3</Subtext>
+          <Subtext>Radio 2022</Subtext>
         </div>
       </div>
       <Alerts />

@@ -1,6 +1,6 @@
 import { fromJS, List, Map } from "immutable";
 import {
-  SET_FILTER_TEXT,
+  SET_FILTERS,
   SET_IS_LOADING,
   SET_ALERTS,
   SET_ALERT_LEVELS,
@@ -14,7 +14,7 @@ const defaultState = fromJS({
   isLoading: true,
   hierarchy: [],
   alertLevels: {},
-  filterText: ""
+  filters: new List()
 });
 
 const setNodeIsCollapsed = (state, { id, isCollapsed }) => state.setIn(["alertLevels", id, "isCollapsed"], isCollapsed);
@@ -32,8 +32,8 @@ const setAlertLevelsStatus = (state, { alertLevels }) => {
 
 export default function alertLevels(state = defaultState, { type, payload }) {
   switch (type) {
-  case SET_FILTER_TEXT:
-      return state.set("filterText", payload.filterText);
+  case SET_FILTERS:
+      return state.set("filters", payload.filters);
   case SET_IS_LOADING:
     return state.set("isLoading", payload.isLoading);
   case SET_ALERTS:

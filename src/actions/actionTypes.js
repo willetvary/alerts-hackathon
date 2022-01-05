@@ -1,4 +1,4 @@
-export const SET_FILTER_TEXT = "SET_FILTER_TEXT";
+export const SET_FILTERS = "SET_FILTERS";
 export const SET_IS_LOADING = "SET_IS_LOADING";
 export const SET_ALERTS = "SET_ALERTS";
 export const SET_ALERT_LEVELS = "SET_ALERT_LEVELS";

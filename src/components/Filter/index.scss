@@ -1,0 +1,46 @@
+.alerts {
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    height: unset;
+    max-height: unset;
+
+    &.focus {
+      background-size: 100% 100%;
+      border-bottom-color: transparent;
+      // border-bottom-color: var(--clr-forms-focused-color);
+    }
+
+    cds-icon {
+      margin-right: .6rem;
+    }
+
+    span {
+      margin-bottom: .15rem;
+    }
+
+    input {
+      border: none;
+      flex-grow: 1;
+      margin-bottom: .15rem;
+      outline: none;
+    }
+  }
+  // .filter > .clr-control-container {
+  //   margin-bottom: 12px;
+  //   width: 100%;
+
+  //   .clr-input-wrapper {
+  //     display: flex;
+
+  //     input {
+  //       padding-left: 32px;
+  //       width: 100%;
+  //     }
+
+  //     cds-control-action {
+  //       position: absolute;
+  //     }
+  //   }
+  // }
+}

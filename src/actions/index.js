@@ -4,16 +4,16 @@ import {
   enableAlert as enableAlertService
 } from "../services";
 import {
-  SET_FILTER_TEXT,
+  SET_FILTERS,
   SET_IS_LOADING,
   SET_ALERTS,
   SET_ALERT_LEVELS,
   SET_NODE_IS_COLLAPSED
 } from "./actionTypes";
 
-export const setFilterText = (filterText) => ({
-  type: SET_FILTER_TEXT,
-  payload: { filterText }
+export const setFilters = (filters) => ({
+  type: SET_FILTERS,
+  payload: { filters }
 });
 
 export const loadAlerts = () => (dispatch) => {
