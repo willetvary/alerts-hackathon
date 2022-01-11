@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import ImmutableProptypes from "react-immutable-proptypes";
-import { getHierarchy } from "../../selectors";
+import { getHierarchy, getFilters, getActiveAlertsOnly } from "../../selectors";
 import Node from "./Node";
+import { drawFilterHighlights } from "../utils";
 
 import "./TopLevelAlerts.scss";
 
-function TopLevelAlerts({ hierarchy, alertLevels }) {
+
+
+function TopLevelAlerts({ hierarchy, filters, activeAlertsOnly }) {
   const level = 1;
-  console.log(">>> hierarchy", hierarchy)
+
+  const nodes = hierarchy.map(({ id, children }) => (
+    <Node key={id} id={id} children={children} level={level} filters={filters} />
+  ));
+
+  useEffect(() => {
+    setTimeout(() => {
+      drawFilterHighlights();
+    });
+  }, [filters, activeAlertsOnly])
+
   return (
     <div className="top-level-alerts">
-      {hierarchy.map(({ id, children }) => (
-        <Node key={id} id={id} children={children} level={level} />
-      ))}
+      {nodes}
     </div>
   );
 }
@@ -24,7 +35,9 @@ TopLevelAlerts.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    hierarchy: getHierarchy(state)
+    hierarchy: getHierarchy(state),
+    filters: getFilters(state),
+    activeAlertsOnly: getActiveAlertsOnly(state)
   }
 };
 

@@ -34,12 +34,10 @@ const setAlertLevelsStatus = (state, { alertLevels }) => {
 }
 
 export default function alertLevels(state = defaultState, { type, payload }) {
-  console.log(">>> reducer", { state, type, payload})
   switch (type) {
   case SET_FILTERS:
       return state.set("filters", payload.filters);
   case UPDATE_FILTER: {
-    console.log(">>> state", state)
     const filters = state.get("filters");
     const index = filters.findIndex(row => row.text === payload.origFilter);
     if (index > -1) {

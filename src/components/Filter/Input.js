@@ -38,7 +38,6 @@ export default function Input({ text, setIsInputFocus, addFilter }) {
     inputRef.current?.focus();
   }, []);
 
-  console.log(">>> Input return")
   return (
     <input
       ref={inputRef}

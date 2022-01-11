@@ -28,10 +28,9 @@ function Filter({ filters, setFilters }) {
   }, [filters, setFilters]);
 
   const removeFilter = useCallback((filterToRemove) => {
-    console.log(">>> filters", filters, filterToRemove)
     colors.current.push({...filterToRemove, text: null });
     setFilters(filters.filter(i => i !== filterToRemove));
-  }, [filters]);
+  }, [filters, setFilters]);
 
   const elems = filters.map((item, index) => {
     return (
@@ -43,8 +42,6 @@ function Filter({ filters, setFilters }) {
       />
     );
   });
-
-  console.log(">>> colors", colors.current)
 
   return (
     <div className={cx("filter-bar clr-input", { "focus": isInputFocus })}>

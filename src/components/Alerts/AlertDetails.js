@@ -1,13 +1,10 @@
 import React from "react";
-import { connect } from "react-redux";
 import ImmutableProptypes from "react-immutable-proptypes";
 // import PropTypes from "prop-types";
-import { getFilters } from "../../selectors";
 
 import "./AlertDetails.scss";
 
 function AlertDetails({ node, filters }) {
-  console.log(">>> go here")
 
   const highlightName = (str) => {
     const result = {
@@ -36,12 +33,11 @@ function AlertDetails({ node, filters }) {
           const { exp, length, color, background } = filterExpressions[i];
           index = str.match(exp)?.index;
           if (index !== undefined) {
-//            result.parts.push(<span key={result.parts.length}>{str.substr(0, index)}</span>);
             const { parts: subParts } = highlightName(str.substr(0, index));
             if (subParts.length > 0) {
               result.parts.push(...subParts);
             }
-            result.parts.push(<span key={result.parts.length} style={{color, background}}>{str.substr(index, length)}</span>);
+            result.parts.push(<span className="highlighted" key={result.parts.length} style={{color, background}}>{str.substr(index, length)}</span>);
             str = str.substr(index + length);
             result.found = true;
             break;
@@ -60,7 +56,7 @@ function AlertDetails({ node, filters }) {
   let index = 1;
   const alerts = node.get("alerts");
   alerts.forEach(name => {
-    const result = highlightName(name, filters[0]);
+    const result = highlightName(name);
 
     rows.push(
       <div key={index} className="alert-row">
@@ -83,8 +79,4 @@ AlertDetails.propTypes = {
   filters: ImmutableProptypes.list.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  filters: getFilters(state)
-});
-
-export default connect(mapStateToProps)(AlertDetails);
+export default AlertDetails;

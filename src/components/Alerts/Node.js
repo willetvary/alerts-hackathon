@@ -15,7 +15,9 @@ import AlertChildren from "./AlertChildren";
 
 const SHOW_ALERTS_ABOVE_LEVEL = 2;
 const SHOW_TOPIC_LINK_BELOW_LEVEL = 3;
-function Node({ id, children, level, node, setNodeIsCollapsed, activeAlertsOnly }) {
+function Node({
+  id, children, level, node, setNodeIsCollapsed, activeAlertsOnly, filters
+}) {
   const numOfFiringAlerts = node.get("numOfFiringAlerts");
   const disabled = node.get("disabled");
   const isCollapsed = node.get("isCollapsed", false);
@@ -29,7 +31,13 @@ function Node({ id, children, level, node, setNodeIsCollapsed, activeAlertsOnly 
         <div className="menu">
           <Menu id={id} disabled={disabled} isCollapsed={isCollapsed} />
         </div>
-        <Link type="button" action="flat" href="#" className="id" onClick={() => setNodeIsCollapsed(id, !isCollapsed)}>
+        <Link
+          type="button"
+          action="flat"
+          href="#"
+          className="id"
+          onClick={() => setNodeIsCollapsed(id, !isCollapsed)}
+        >
           <Icon shape={CdsCoreIcon.angleIconName} direction={direction} />
           {id}
         </Link>
@@ -39,8 +47,8 @@ function Node({ id, children, level, node, setNodeIsCollapsed, activeAlertsOnly 
       </div>
       {isCollapsed ? null : (
         <div className="content">
-          {level > SHOW_ALERTS_ABOVE_LEVEL && <AlertDetails node={node} />}
-          {children && <AlertChildren children={children} level={level + 1} />}
+          {level > SHOW_ALERTS_ABOVE_LEVEL && <AlertDetails node={node} filters={filters} />}
+          {children && <AlertChildren children={children} level={level + 1} filters={filters} />}
         </div>
       )}
     </div>

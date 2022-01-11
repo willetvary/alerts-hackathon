@@ -1,4 +1,23 @@
 .filter-map {
-  background: gray;
-  width: 10px;
+  height: 750px;
+  position: absolute;
+  right: 0px;
+  width: 22px;
+
+  .filter-svg {
+    background-color: rgba(211, 211, 211, .1);
+    position: absolute;
+    height: 750px;
+    width: 22px;
+  }
+
+  .block {
+    background-color: rgba(211, 211, 211, .75);
+    border: 1px solid darkgray;
+    display: block;
+    height: 21.5px;
+    position: absolute;
+    top: 0;
+    width: 22px;
+  }
 }
