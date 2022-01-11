@@ -8,6 +8,7 @@ import "./TopLevelAlerts.scss";
 
 function TopLevelAlerts({ hierarchy, alertLevels }) {
   const level = 1;
+  console.log(">>> hierarchy", hierarchy)
   return (
     <div className="top-level-alerts">
       {hierarchy.map(({ id, children }) => (

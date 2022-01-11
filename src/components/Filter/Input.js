@@ -1,12 +1,14 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-export default function Input({ setIsFocus, addFilter }) {
+import "./Input.scss";
 
-  const [value, setValue] = useState("");
+export default function Input({ text, setIsInputFocus, addFilter }) {
+  const inputRef = useRef();
+  const [value, setValue] = useState(text || "");
 
   const focusHandler = useCallback(() => {
-    setIsFocus(true);
-  }, [setIsFocus]);
+    setIsInputFocus(true);
+  }, [setIsInputFocus]);
 
   const addFilterHandler = useCallback(() => {
     if (value.length > 0) {
@@ -17,8 +19,8 @@ export default function Input({ setIsFocus, addFilter }) {
 
   const blurHandler = useCallback(() => {
     addFilterHandler();
-    setIsFocus(false);
-  }, [setIsFocus, addFilterHandler]);
+    setIsInputFocus(false);
+  }, [setIsInputFocus, addFilterHandler]);
 
   const changeHandler = useCallback(e => {
     setValue(e.target.value);
@@ -32,9 +34,14 @@ export default function Input({ setIsFocus, addFilter }) {
     }
   }, [addFilterHandler]);
 
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   console.log(">>> Input return")
   return (
     <input
+      ref={inputRef}
       type="text"
       value={value}
       onFocus={focusHandler}

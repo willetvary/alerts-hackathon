@@ -9,14 +9,18 @@ import "./AlertDetails.scss";
 function AlertDetails({ node, filters }) {
   console.log(">>> go here")
 
-  const highlightName = (name) => {
+  const highlightName = (str) => {
     const result = {
       found: false,
       parts: []
     };
 
+    if (!str) {
+      return result;
+    }
+
     if (!filters.length) {
-      result.parts.push(<span key={result.parts.length}>{name}</span>);
+      result.parts.push(<span key={result.parts.length}>{str}</span>);
     } else {
       const filterExpressions = filters.map(({ text, color, background }) => {
         return {
@@ -26,22 +30,26 @@ function AlertDetails({ node, filters }) {
           background
         };
       });
-      while (name !== "") {
+      while (str !== "") {
         let index;
         for(let i = 0; i < filterExpressions.length; i++) {
           const { exp, length, color, background } = filterExpressions[i];
-          index = name.match(exp)?.index;
+          index = str.match(exp)?.index;
           if (index !== undefined) {
-            result.parts.push(<span key={result.parts.length}>{name.substr(0, index)}</span>);
-            result.parts.push(<span key={result.parts.length} style={{color, background}}>{name.substr(index, length)}</span>);
-            name = name.substr(index + length);
+//            result.parts.push(<span key={result.parts.length}>{str.substr(0, index)}</span>);
+            const { parts: subParts } = highlightName(str.substr(0, index));
+            if (subParts.length > 0) {
+              result.parts.push(...subParts);
+            }
+            result.parts.push(<span key={result.parts.length} style={{color, background}}>{str.substr(index, length)}</span>);
+            str = str.substr(index + length);
             result.found = true;
             break;
           }
         }
         if (index === undefined) {
-          result.parts.push(<span key={result.parts.length}>{name}</span>);
-          name = "";
+          result.parts.push(<span key={result.parts.length}>{str}</span>);
+          str = "";
         }
       }
     }
@@ -54,27 +62,17 @@ function AlertDetails({ node, filters }) {
   alerts.forEach(name => {
     const result = highlightName(name, filters[0]);
 
-    // if (!filters.length || result.found) {
-      rows.push(
-        <div key={index} className="alert-row">
-          <div>{index}.</div>
-          <div>{result.parts}</div>
-        </div>
-      );
-      index++;
-    // }
+    rows.push(
+      <div key={index} className="alert-row">
+        <div>{index}.</div>
+        <div>{result.parts}</div>
+      </div>
+    );
+    index++;
   });
-
-  // let header;
-  // // if (filters.length) {
-  // //   header = `${rows.length} of ${alerts.size} alert${alerts.size > 1 ? "s" : ""} matching "${filters[0].text}".`;
-  // // } else {
-  // //   header = `${alerts.size} Alert${alerts.size === 1 ? "" : "s"}`;
-  // // }
 
   return (
     <div className="alerts-section">
-      {/* <div className="section-header">{header}</div> */}
       <div className="alert-names">{rows}</div>
     </div>
   );

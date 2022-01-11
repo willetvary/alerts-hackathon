@@ -1,8 +1,11 @@
 .filter-bar {
   .pill {
+    padding-left: .75rem;
+
     button {
       background: transparent;
       border: none;
+      color: unset;
       margin: 0 -.3rem 0 .3rem;
 
       &:focus {

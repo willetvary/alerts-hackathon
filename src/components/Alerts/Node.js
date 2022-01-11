@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { DOWN, Icon, Link, RIGHT } from "@tmc/clr-react";
 import * as CdsCoreIcon from "@cds/core/icon";
 import { setNodeIsCollapsed } from "../../actions";
-import { getNode } from "../../selectors";
+import { getNode, getActiveAlertsOnly } from "../../selectors";
 import Menu from "../Menu";
 import DisabledBadge from "../DisabledBadge";
 import FiringBadge from "../FiringBadge";
@@ -15,11 +15,13 @@ import AlertChildren from "./AlertChildren";
 
 const SHOW_ALERTS_ABOVE_LEVEL = 2;
 const SHOW_TOPIC_LINK_BELOW_LEVEL = 3;
-function Node({ id, children, level, node, setNodeIsCollapsed }) {
+function Node({ id, children, level, node, setNodeIsCollapsed, activeAlertsOnly }) {
   const numOfFiringAlerts = node.get("numOfFiringAlerts");
   const disabled = node.get("disabled");
   const isCollapsed = node.get("isCollapsed", false);
   const direction = isCollapsed ? RIGHT : DOWN;
+
+  if (activeAlertsOnly && numOfFiringAlerts === 0) return null;
 
   return (
     <div className="node">
@@ -54,7 +56,8 @@ Node.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  node: getNode(state, ownProps.id)
+  node: getNode(state, ownProps.id),
+  activeAlertsOnly: getActiveAlertsOnly(state)
 });
 
 export default connect(mapStateToProps, { setNodeIsCollapsed })(Node);

@@ -5,15 +5,25 @@ import {
 } from "../services";
 import {
   SET_FILTERS,
+  UPDATE_FILTER,
   SET_IS_LOADING,
   SET_ALERTS,
   SET_ALERT_LEVELS,
-  SET_NODE_IS_COLLAPSED
+  SET_NODE_IS_COLLAPSED,
+  SET_ACTIVE_ALERTS_ONLY
 } from "./actionTypes";
 
 export const setFilters = (filters) => ({
   type: SET_FILTERS,
   payload: { filters }
+});
+
+export const updateFilter = (origFilter, newFilter) => ({
+  type: UPDATE_FILTER,
+  payload: {
+    origFilter,
+    newFilter
+  }
 });
 
 export const loadAlerts = () => (dispatch) => {
@@ -54,4 +64,9 @@ export const setAlerts = (alerts) => ({
 export const setNodeIsCollapsed = (id, isCollapsed) => ({
   type: SET_NODE_IS_COLLAPSED,
   payload: { id, isCollapsed }
+});
+
+export const setActiveAlertsOnly = (activeAlertsOnly) => ({
+  type: SET_ACTIVE_ALERTS_ONLY,
+  payload: { activeAlertsOnly }
 });

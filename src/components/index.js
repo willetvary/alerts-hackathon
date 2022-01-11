@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { loadAlerts } from "../actions";
 import { getIsLoading } from "../selectors";
 import Loading from "./Loading";
-import Filter from "./Filter";
+import FitlerContainer from "./Filter";
 import AlertsContainer from "./Alerts/AlertsContainer";
 
 import "./index.scss";
@@ -21,7 +21,7 @@ function Alerts({ isLoading, loadAlerts }) {
       {isLoading ? <Loading /> : null}
       {!isLoading ? (
         <>
-          <Filter />
+          <FitlerContainer />
           <AlertsContainer />
         </>
       ): null}

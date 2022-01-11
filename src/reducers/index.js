@@ -1,10 +1,12 @@
 import { fromJS, List, Map } from "immutable";
 import {
   SET_FILTERS,
+  UPDATE_FILTER,
   SET_IS_LOADING,
   SET_ALERTS,
   SET_ALERT_LEVELS,
-  SET_NODE_IS_COLLAPSED
+  SET_NODE_IS_COLLAPSED,
+  SET_ACTIVE_ALERTS_ONLY
 } from "../actions/actionTypes";
 
 window._fromJS = fromJS
@@ -14,7 +16,8 @@ const defaultState = fromJS({
   isLoading: true,
   hierarchy: [],
   alertLevels: {},
-  filters: new List()
+  filters: new List(),
+  activeAlertsOnly: false
 });
 
 const setNodeIsCollapsed = (state, { id, isCollapsed }) => state.setIn(["alertLevels", id, "isCollapsed"], isCollapsed);
@@ -31,9 +34,25 @@ const setAlertLevelsStatus = (state, { alertLevels }) => {
 }
 
 export default function alertLevels(state = defaultState, { type, payload }) {
+  console.log(">>> reducer", { state, type, payload})
   switch (type) {
   case SET_FILTERS:
       return state.set("filters", payload.filters);
+  case UPDATE_FILTER: {
+    console.log(">>> state", state)
+    const filters = state.get("filters");
+    const index = filters.findIndex(row => row.text === payload.origFilter);
+    if (index > -1) {
+      const newFilters = [...filters];
+      newFilters[index] = {
+        ...filters[index],
+        text: payload.newFilter
+      };
+      return state.set("filters", newFilters);
+    } else {
+      return state;
+    }
+  }
   case SET_IS_LOADING:
     return state.set("isLoading", payload.isLoading);
   case SET_ALERTS:
@@ -45,6 +64,8 @@ export default function alertLevels(state = defaultState, { type, payload }) {
     return setAlertLevelsStatus(state, payload);
   case SET_NODE_IS_COLLAPSED:
     return setNodeIsCollapsed(state, payload);
+  case SET_ACTIVE_ALERTS_ONLY:
+    return state.set("activeAlertsOnly", payload.activeAlertsOnly);
   default:
     return state;
   }

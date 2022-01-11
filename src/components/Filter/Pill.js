@@ -1,22 +1,51 @@
 import React, { useCallback, useState } from "react";
+import { connect } from "react-redux";
 import cx from "classnames";
 import { Icon } from "@tmc/clr-react";
+import { updateFilter } from "../../actions";
+import Input from "./Input";
 
 import "./Pill.scss";
 
-const Pill = ({ filter, removeFilter }) => {
-  const [isFocus, setIsFocus] = useState(false);
+const Pill = ({ filter, removeFilter, setIsInputFocus, updateFilter }) => {
+  const [isIconFocus, setIsIconFocus] = useState(false);
+  const [isTextFocus, setIsTextFocus] = useState(false);
+  const [isTextActive, setIsTextActive] = useState(false);
   const { text, color, background } = filter;
 
-  const focusHandler = useCallback(() => {
-    setIsFocus(true);
+  const textClickHandler = useCallback(() => {
+    setIsTextActive(true);
   }, []);
 
-  const blurHandler = useCallback(() => {
-    setIsFocus(false);
+  const textFocusHandler = useCallback(() => {
+    setIsTextFocus(true);
   }, []);
 
-  const clickHandler = useCallback(() => {
+  const textBlurHandler = useCallback(() => {
+    setIsTextFocus(false);
+  }, []);
+
+  const updateFilterHandler = useCallback(newText => {
+    if (!newText.trim()) {
+      removeFilter(filter);
+    } else {
+      setIsTextActive(false);
+      setIsTextFocus(false);
+      if (newText.trim() !== text) {
+        updateFilter(text, newText);
+      }
+    }
+  }, [text, filter, updateFilter, removeFilter]);
+
+  const iconFocusHandler = useCallback(() => {
+    setIsIconFocus(true);
+  }, []);
+
+  const iconBlurHandler = useCallback(() => {
+    setIsIconFocus(false);
+  }, []);
+
+  const iconClickHandler = useCallback(() => {
     removeFilter(filter);
   }, [filter, removeFilter]);
 
@@ -32,13 +61,21 @@ const Pill = ({ filter, removeFilter }) => {
 
   return (
     <span className="label pill" style={spanStyle}>
-      {text}
+      {!isTextActive && (
+        <button
+          className={cx({"focus": isTextFocus})}
+          onClick={textClickHandler}
+          onFocus={textFocusHandler}
+          onBlur={textBlurHandler}
+        >{text}</button>
+      )}
+      {isTextActive && <Input text={text} setIsInputFocus={setIsInputFocus} addFilter={updateFilterHandler} />}
       <button
-        className={cx({"focus": isFocus})}
+        className={cx({"focus": isIconFocus})}
         style={buttonStyle}
-        onClick={clickHandler}
-        onFocus={focusHandler}
-        onBlur={blurHandler}
+        onClick={iconClickHandler}
+        onFocus={iconFocusHandler}
+        onBlur={iconBlurHandler}
       >
         <Icon family="link" shape="close" style={{color}} />
       </button>
@@ -46,4 +83,4 @@ const Pill = ({ filter, removeFilter }) => {
   );
 };
 
-export default Pill;
+export default connect(null, { updateFilter })(Pill);
