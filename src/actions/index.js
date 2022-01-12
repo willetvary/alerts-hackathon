@@ -10,7 +10,8 @@ import {
   SET_ALERTS,
   SET_ALERT_LEVELS,
   SET_NODE_IS_COLLAPSED,
-  SET_ACTIVE_ALERTS_ONLY
+  SET_ACTIVE_ALERTS_ONLY,
+  SET_COLLAPSE_ALL
 } from "./actionTypes";
 
 export const setFilters = (filters) => ({
@@ -69,4 +70,8 @@ export const setNodeIsCollapsed = (id, isCollapsed) => ({
 export const setActiveAlertsOnly = (activeAlertsOnly) => ({
   type: SET_ACTIVE_ALERTS_ONLY,
   payload: { activeAlertsOnly }
+});
+
+export const setCollapseAll = () => ({
+  type: SET_COLLAPSE_ALL
 });

@@ -6,7 +6,8 @@ import {
   SET_ALERTS,
   SET_ALERT_LEVELS,
   SET_NODE_IS_COLLAPSED,
-  SET_ACTIVE_ALERTS_ONLY
+  SET_ACTIVE_ALERTS_ONLY,
+  SET_COLLAPSE_ALL
 } from "../actions/actionTypes";
 
 window._fromJS = fromJS
@@ -31,7 +32,20 @@ const setAlertLevelsStatus = (state, { alertLevels }) => {
       }
     }
   });
-}
+};
+
+const setCollapseAll = (state) => {
+  console.log(">>> go here", state)
+  return state.withMutations(state => {
+    const alertLevels = state.get("alertLevels").toJS();
+    const values = Object.values(alertLevels);
+    values.forEach(v => {
+      v.isCollapsed = true;
+    });
+    state.set("alertLevels", fromJS(alertLevels))
+  });
+};
+
 
 export default function alertLevels(state = defaultState, { type, payload }) {
   switch (type) {
@@ -64,6 +78,8 @@ export default function alertLevels(state = defaultState, { type, payload }) {
     return setNodeIsCollapsed(state, payload);
   case SET_ACTIVE_ALERTS_ONLY:
     return state.set("activeAlertsOnly", payload.activeAlertsOnly);
+  case SET_COLLAPSE_ALL:
+    return setCollapseAll(state);
   default:
     return state;
   }
