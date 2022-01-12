@@ -11,7 +11,6 @@ const addRect = (svg, span, x, width) => {
 };
 
 export const drawFilterHighlights = () => {
-  console.log(">>> go here")
   const parent = document.getElementsByClassName("alerts-container")[0];
   const mapContainer = document.getElementsByClassName("filter-map")[0];
   const spans = document.getElementsByClassName("highlighted");
